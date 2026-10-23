@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Soirée Poker chez Yacine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Outfit:wght@300;400;600;800&family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: casino Art déco de nuit — fond vert bouteille profond, filets dorés, cartes en éventail, onglets en jetons */
+:root{
+  --night:#0b1712; --felt:#123a29; --felt-hi:#1d5a3f;
+  --gold:#d9b25f; --gold-hi:#f3dc9c; --gold-dim:#8a6f36;
+  --ivory:#f6f0e2; --mist:#b9c9bf; --ink:#1a1612;
+  --ruby:#b8262f; --yes:#3fa56d; --no:#d0494c; --maybe:#e0a43a;
+  --display:"Limelight", "Didot", Georgia, serif;
+  --script:"Cormorant Garamond", Georgia, serif;
+  --body:"Outfit", system-ui, -apple-system, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night)}
+body{margin:0;color:var(--ivory);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.6;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, var(--felt-hi) 0%, transparent 60%),
+    radial-gradient(900px 700px at 50% 120%, var(--felt) 0%, transparent 70%),
+    repeating-linear-gradient(45deg, rgba(217,178,95,.035) 0 2px, transparent 2px 22px),
+    var(--night)}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:28px}
+
+/* En-tête */
+header{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.fan{position:relative;width:180px;height:110px}
+.fan .pc{position:absolute;left:50%;bottom:0;width:62px;height:88px;margin-left:-31px;border-radius:7px;background:var(--ivory);border:1px solid var(--gold);
+  box-shadow:0 8px 18px rgba(0,0,0,.5);display:flex;flex-direction:column;justify-content:space-between;padding:5px 7px;font:600 15px var(--body);color:var(--ink);transform-origin:50% 120%}
+.fan .pc i{font-style:normal;align-self:center;font-size:26px;line-height:1}
+.fan .pc.red{color:var(--ruby)}
+.fan .pc:nth-child(1){transform:rotate(-24deg)} .fan .pc:nth-child(2){transform:rotate(-8deg)}
+.fan .pc:nth-child(3){transform:rotate(8deg)} .fan .pc:nth-child(4){transform:rotate(24deg)}
+.eyebrow{font:600 12px var(--body);letter-spacing:.42em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:var(--display);font-weight:400;margin:0;line-height:.95;font-size:clamp(2.6rem,11vw,5rem);text-wrap:balance;
+  background:linear-gradient(180deg,var(--gold-hi) 0%,var(--gold) 55%,var(--gold-dim) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(0,0,0,.4))}
+h1 .amp{font-family:var(--script);font-style:italic;font-size:.7em;display:block;margin:6px 0}
+.lede{margin:0;font-family:var(--script);font-style:italic;font-size:1.35rem;color:var(--mist)}
+.deco{display:flex;align-items:center;gap:12px;width:min(420px,100%);color:var(--gold)}
+.deco::before,.deco::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* Onglets jetons */
+nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:5;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding-block:12px;
+  background:linear-gradient(var(--night) 70%, transparent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:10;background:var(--night)}
+nav button{font:600 14px var(--body);letter-spacing:.06em;color:var(--ivory);background:var(--felt);cursor:pointer;
+  padding:10px 18px 10px 14px;border-radius:999px;border:1px solid var(--gold-dim);display:flex;align-items:center;gap:9px;transition:transform .15s,background .15s}
+nav button .chip{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,var(--ivory) 0 30%,var(--ruby) 31% 100%);
+  box-shadow:inset 0 0 0 3px var(--ruby),inset 0 0 0 5px var(--ivory);flex:none}
+nav button:hover{transform:translateY(-1px)}
+nav button[aria-selected="true"]{background:var(--gold);color:var(--ink);border-color:var(--gold-hi)}
+nav button[aria-selected="true"] .chip{background:radial-gradient(circle,var(--gold-hi) 0 30%,var(--ink) 31% 100%);box-shadow:inset 0 0 0 3px var(--ink),inset 0 0 0 5px var(--gold-hi)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+
+/* Cadre déco */
+.panel{position:relative;border:1px solid var(--gold-dim);border-radius:4px;padding:28px 22px;background:linear-gradient(180deg,rgba(18,58,41,.75),rgba(11,23,18,.85));display:flex;flex-direction:column;gap:18px;min-width:0}
+.panel::before{content:"";position:absolute;inset:6px;border:1px solid rgba(217,178,95,.25);border-radius:2px;pointer-events:none}
+.panel > *{position:relative}
+.corner{position:absolute;width:18px;height:18px;border-color:var(--gold);border-style:solid}
+.corner.tl{top:-1px;left:-1px;border-width:2px 0 0 2px}.corner.tr{top:-1px;right:-1px;border-width:2px 2px 0 0}
+.corner.bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px}.corner.br{bottom:-1px;right:-1px;border-width:0 2px 2px 0}
+h2{font-family:var(--display);font-weight:400;margin:0;font-size:1.9rem;color:var(--gold-hi);text-align:center;letter-spacing:.02em}
+h3{font:800 13px var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin:6px 0 0}
+
+/* Photo */
+.photo{position:relative;padding:10px;border:1px solid var(--gold);border-radius:4px;background:var(--night);box-shadow:0 30px 60px rgba(0,0,0,.55)}
+.photo img{display:block;width:100%;height:auto;border-radius:2px}
+.photo::after{content:"";position:absolute;inset:4px;border:1px solid rgba(217,178,95,.35);pointer-events:none}
+
+/* Programme */
+.prog{display:grid;grid-template-columns:auto 1px 1fr;gap:20px;align-items:center}
+.prog .time{font-family:var(--display);font-size:clamp(3rem,13vw,4.4rem);line-height:1;color:var(--gold-hi);text-align:center}
+.prog .time small{display:block;font:600 11px var(--body);letter-spacing:.32em;text-transform:uppercase;color:var(--mist);margin-top:6px}
+.prog .bar{align-self:stretch;background:linear-gradient(var(--gold),transparent)}
+.prog ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.prog li{display:flex;gap:12px;align-items:baseline;font-size:1.1rem}
+.prog li b{font-weight:600}
+.prog li .s{color:var(--gold);width:16px;flex:none;text-align:center}
+.prog li .s.r{color:var(--ruby)}
+@media (max-width:460px){.prog{grid-template-columns:1fr}.prog .bar{display:none}}
+.note{margin:0;text-align:center;color:var(--mist);font-family:var(--script);font-style:italic;font-size:1.15rem}
+
+/* RSVP */
+form{display:flex;flex-direction:column;gap:16px}
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font:600 12px var(--body);letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+input[type=text]{font:400 17px var(--body);color:var(--ivory);background:rgba(0,0,0,.35);border:0;border-bottom:1px solid var(--gold-dim);padding:12px 4px;border-radius:0;width:100%}
+input[type=text]::placeholder{color:#6f8178}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choice{font:600 14px var(--body);color:var(--ivory);background:rgba(0,0,0,.3);border:1px solid var(--gold-dim);padding:16px 6px;border-radius:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s}
+.choice .ic{font-size:22px;line-height:1}
+.choice[aria-pressed="true"][data-v="oui"]{background:var(--yes);border-color:var(--yes)}
+.choice[aria-pressed="true"][data-v="non"]{background:var(--no);border-color:var(--no)}
+.choice[aria-pressed="true"][data-v="peut-etre"]{background:var(--maybe);border-color:var(--maybe);color:var(--ink)}
+@media (max-width:420px){.choice{font-size:13px}}
+.btn{font:800 15px var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ink);cursor:pointer;border:0;border-radius:4px;padding:17px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold) 60%,var(--gold-dim));box-shadow:0 10px 24px rgba(0,0,0,.4)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.status{margin:0;text-align:center;min-height:1.4em;font-size:15px;color:var(--mist)}
+.status.ok{color:var(--gold-hi);font-weight:600}.status.err{color:#ff9a9a;font-weight:600}
+
+.tally{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.tally span{font:600 13px var(--body);padding:6px 14px;border-radius:999px;border:1px solid}
+.tally .oui{color:var(--yes);border-color:var(--yes)}.tally .peut-etre{color:var(--maybe);border-color:var(--maybe)}.tally .non{color:var(--no);border-color:var(--no)}
+ul.guests{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+ul.guests li{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;border-bottom:1px solid rgba(217,178,95,.18)}
+ul.guests li span:first-child{font-size:1.05rem}
+ul.guests li em{font-style:normal;font:600 12px var(--body);letter-spacing:.14em;text-transform:uppercase}
+.empty{margin:0;text-align:center;color:var(--mist)}
+
+/* Règles */
+.intro{margin:0;text-align:center;font-size:1.08rem}
+.intro b{color:var(--gold-hi);font-weight:600}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;align-items:start}
+.steps li::before{counter-increment:s;content:counter(s);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--display);font-size:18px;color:var(--ink);background:radial-gradient(circle,var(--gold-hi) 0 52%,var(--gold) 53% 100%);box-shadow:inset 0 0 0 3px var(--gold-dim)}
+.steps b{color:var(--gold-hi);font-weight:600}
+.moves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.moves div{border:1px solid rgba(217,178,95,.3);border-radius:4px;padding:12px 14px;background:rgba(0,0,0,.25);min-width:0}
+.moves b{display:block;font-family:var(--display);font-weight:400;color:var(--gold-hi);font-size:1.15rem;margin-bottom:2px}
+@media (max-width:460px){.moves{grid-template-columns:1fr}}
+.hands{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.hands li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid rgba(217,178,95,.15);align-items:center}
+.hands .n{font-family:var(--display);color:var(--gold);text-align:center;font-size:1.1rem}
+.hands .t{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;min-width:0}
+.hands .t b{font-weight:600}
+.hands .t small{display:block;color:var(--mist);font-size:13px}
+.cards{display:flex;gap:3px;flex-wrap:nowrap}
+.cards span{font:600 12px var(--body);color:var(--ink);background:var(--ivory);border-radius:3px;padding:3px 4px;min-width:24px;text-align:center}
+.cards span.r{color:var(--ruby)}
+.tip{border-left:2px solid var(--gold);padding:6px 0 6px 14px;margin:0;font-family:var(--script);font-style:italic;font-size:1.2rem;color:var(--ivory)}
+.tip b{font-family:var(--body);font-style:normal;font:600 11px var(--body);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:block}
+.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;text-align:center}
+.vals div{border:1px solid rgba(217,178,95,.3);border-radius:4px;padding:14px 6px;background:rgba(0,0,0,.25)}
+.vals b{display:block;font-family:var(--display);font-weight:400;font-size:1.5rem;color:var(--gold-hi)}
+.vals span{font-size:14px;color:var(--mist)}
+
+footer{text-align:center;color:var(--gold-dim);letter-spacing:.5em;font-size:14px}
+@media (prefers-reduced-motion:no-preference){
+  .fan .pc{animation:deal .6s cubic-bezier(.2,.8,.2,1) both}
+  .fan .pc:nth-child(2){animation-delay:.08s}.fan .pc:nth-child(3){animation-delay:.16s}.fan .pc:nth-child(4){animation-delay:.24s}
+  @keyframes deal{from{translate:0 18px}to{translate:0 0}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="fan" aria-hidden="true">
+      <div class="pc">A<i>♠</i></div>
+      <div class="pc red">K<i>♥</i></div>
+      <div class="pc">Q<i>♣</i></div>
+      <div class="pc red">J<i>♦</i></div>
+    </div>
+    <div class="eyebrow">Vous êtes invités</div>
+    <h1>Soirée Poker<span class="amp">&amp;</span>Blackjack</h1>
+    <div class="deco" aria-hidden="true">♠ ♥ ♣ ♦</div>
+    <p class="lede">Une table, des jetons, et que le meilleur gagne.</p>
+  </header>
+
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" id="t-invit" aria-selected="true" data-tab="invit"><span class="chip"></span>Invitation</button>
+    <button role="tab" id="t-poker" aria-selected="false" data-tab="poker"><span class="chip"></span>Règles poker</button>
+    <button role="tab" id="t-bj" aria-selected="false" data-tab="bj"><span class="chip"></span>Règles blackjack</button>
+  </nav>
+
+  <!-- INVITATION -->
+  <section id="invit" role="tabpanel" aria-labelledby="t-invit" style="display:flex;flex-direction:column;gap:28px">
+    <div class="photo"><img alt="Illustration de la soirée : quatre amis jouent aux cartes dans le salon, deux chiens jouent au premier plan" src="poker.jpg"></div>
+
+    <div class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2>Au programme</h2>
+      <div class="prog">
+        <div class="time">19h<small>À partir de</small></div>
+        <div class="bar"></div>
+        <ul>
+          <li><span class="s">♠</span><span><b>Poker</b> Texas Hold'em</span></li>
+          <li><span class="s r">♥</span><span><b>Blackjack</b> contre le croupier</span></li>
+          <li><span class="s">♣</span><span>Tout le monde à la même table</span></li>
+        </ul>
+      </div>
+      <p class="note">Tu ne connais pas les règles ? Elles sont dans les onglets du haut.</p>
+    </div>
+
+    <div class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2>Tu viens&nbsp;?</h2>
+      <form id="rsvp" novalidate>
+        <div class="field">
+          <label class="label" for="name">Ton prénom</label>
+          <input type="text" id="name" autocomplete="given-name" maxlength="40" placeholder="Ex. : Kim">
+        </div>
+        <div class="field">
+          <span class="label">Ta réponse</span>
+          <div class="choices">
+            <button type="button" class="choice" data-v="oui" aria-pressed="false" id="c-oui"><span class="ic">♠</span>Je viens</button>
+            <button type="button" class="choice" data-v="peut-etre" aria-pressed="false" id="c-maybe"><span class="ic">?</span>Peut-être</button>
+            <button type="button" class="choice" data-v="non" aria-pressed="false" id="c-non"><span class="ic">✕</span>Je passe</button>
+          </div>
+        </div>
+        <button class="btn" type="submit" id="send">Envoyer ma réponse</button>
+        <p class="status" id="status" role="status"></p>
+      </form>
+    </div>
+
+    <div class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2>À la table</h2>
+      <div class="tally" id="count"></div>
+      <ul class="guests" id="guests"></ul>
+      <p class="empty" id="empty">Aucune réponse pour l'instant. Sois le premier à prendre ta place.</p>
+    </div>
+  </section>
+
+  <!-- POKER -->
+  <section id="poker" role="tabpanel" aria-labelledby="t-poker" hidden>
+    <div class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2>Poker · Texas Hold'em</h2>
+      <p class="intro"><b>Le but :</b> avoir la meilleure combinaison de 5 cartes, ou faire abandonner les autres pour rafler les jetons au milieu (le « pot »).</p>
+
+      <h3>Une manche, étape par étape</h3>
+      <ol class="steps">
+        <li><span>Chacun reçoit <b>2 cartes cachées</b>, rien que pour lui. Premier tour de mise.</span></li>
+        <li><span><b>Le flop :</b> 3 cartes sont posées face visible au milieu. Elles servent à tout le monde. Tour de mise.</span></li>
+        <li><span><b>Le turn :</b> une 4ᵉ carte commune. Tour de mise.</span></li>
+        <li><span><b>La river :</b> la 5ᵉ et dernière carte commune. Dernier tour de mise.</span></li>
+        <li><span>Ceux qui restent montrent leurs cartes. Avec tes 2 cartes + les 5 du milieu, tu gardes <b>les 5 meilleures</b>. La plus forte main gagne le pot.</span></li>
+      </ol>
+
+      <h3>Quand c'est ton tour</h3>
+      <div class="moves">
+        <div><b>Checker</b>Passer sans miser, si personne n'a misé avant toi.</div>
+        <div><b>Suivre</b>Mettre la même mise que le joueur d'avant.</div>
+        <div><b>Relancer</b>Miser plus que le joueur d'avant.</div>
+        <div><b>Se coucher</b>Abandonner la manche. Tu perds ce que tu as déjà misé.</div>
+      </div>
+
+      <h3>Les mains, de la plus forte à la plus faible</h3>
+      <ul class="hands">
+        <li><span class="n">1</span><span class="t"><span><b>Quinte flush royale</b><small>10 à l'As, même couleur</small></span><span class="cards"><span class="r">10♥</span><span class="r">J♥</span><span class="r">Q♥</span><span class="r">K♥</span><span class="r">A♥</span></span></span></li>
+        <li><span class="n">2</span><span class="t"><span><b>Quinte flush</b><small>5 qui se suivent, même couleur</small></span><span class="cards"><span>5♠</span><span>6♠</span><span>7♠</span><span>8♠</span><span>9♠</span></span></span></li>
+        <li><span class="n">3</span><span class="t"><span><b>Carré</b><small>4 cartes identiques</small></span><span class="cards"><span>K♠</span><span class="r">K♥</span><span>K♣</span><span class="r">K♦</span></span></span></li>
+        <li><span class="n">4</span><span class="t"><span><b>Full</b><small>un brelan + une paire</small></span><span class="cards"><span>8♠</span><span class="r">8♥</span><span>8♣</span><span>3♠</span><span class="r">3♦</span></span></span></li>
+        <li><span class="n">5</span><span class="t"><span><b>Couleur</b><small>5 cartes de la même couleur</small></span><span class="cards"><span class="r">2♦</span><span class="r">6♦</span><span class="r">9♦</span><span class="r">J♦</span><span class="r">K♦</span></span></span></li>
+        <li><span class="n">6</span><span class="t"><span><b>Suite</b><small>5 cartes qui se suivent</small></span><span class="cards"><span>4♣</span><span class="r">5♥</span><span>6♠</span><span class="r">7♦</span><span>8♣</span></span></span></li>
+        <li><span class="n">7</span><span class="t"><span><b>Brelan</b><small>3 cartes identiques</small></span><span class="cards"><span>7♠</span><span class="r">7♥</span><span>7♣</span></span></span></li>
+        <li><span class="n">8</span><span class="t"><span><b>Double paire</b><small>deux paires différentes</small></span><span class="cards"><span>J♣</span><span class="r">J♦</span><span>4♠</span><span class="r">4♥</span></span></span></li>
+        <li><span class="n">9</span><span class="t"><span><b>Paire</b><small>2 cartes identiques</small></span><span class="cards"><span>Q♠</span><span class="r">Q♥</span></span></span></li>
+        <li><span class="n">10</span><span class="t"><span><b>Carte haute</b><small>rien de tout ça : la plus haute carte compte</small></span><span class="cards"><span>A♣</span></span></span></li>
+      </ul>
+      <p class="tip"><b>Astuce de débutant</b>Petites cartes et quelqu'un mise gros ? Couche-toi, ça ne coûte rien et tu apprends en regardant.</p>
+    </div>
+  </section>
+
+  <!-- BLACKJACK -->
+  <section id="bj" role="tabpanel" aria-labelledby="t-bj" hidden>
+    <div class="panel">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2>Blackjack</h2>
+      <p class="intro"><b>Le but :</b> s'approcher le plus possible de <b>21</b> sans le dépasser, et faire mieux que le croupier. Tu joues contre lui, pas contre les autres.</p>
+
+      <h3>Ce que valent les cartes</h3>
+      <div class="vals">
+        <div><b>2 à 10</b><span>leur chiffre</span></div>
+        <div><b>V · D · R</b><span>10 points</span></div>
+        <div><b>As</b><span>1 ou 11, au choix</span></div>
+      </div>
+
+      <h3>Une manche, étape par étape</h3>
+      <ol class="steps">
+        <li><span>Tu poses ta mise avant de recevoir tes cartes.</span></li>
+        <li><span>Tu reçois <b>2 cartes visibles</b>. Le croupier en prend 2 aussi, dont <b>une seule visible</b>.</span></li>
+        <li><span>Tu demandes des cartes autant que tu veux, puis tu t'arrêtes. Au-dessus de 21, tu as perdu tout de suite.</span></li>
+        <li><span>Le croupier retourne sa carte cachée. Il <b>doit tirer jusqu'à 17 ou plus</b>, puis il s'arrête.</span></li>
+        <li><span>Le plus proche de 21 gagne. Si le croupier dépasse 21, tous ceux encore en jeu gagnent. Égalité : tu récupères ta mise.</span></li>
+      </ol>
+
+      <h3>Quand c'est ton tour</h3>
+      <div class="moves">
+        <div><b>Tirer</b>Prendre une carte de plus.</div>
+        <div><b>Rester</b>Garder ton total et t'arrêter.</div>
+        <div><b>Doubler</b>Doubler ta mise, recevoir une seule carte, puis t'arrêter.</div>
+        <div><b>Séparer</b>Avec deux cartes identiques, en faire deux mains (avec une 2ᵉ mise).</div>
+      </div>
+
+      <h3>Ce que tu gagnes</h3>
+      <div class="moves">
+        <div><b>Blackjack</b>As + une carte à 10 dès le départ : tu gagnes 1,5 fois ta mise.</div>
+        <div><b>Victoire</b>Tu gagnes autant que ta mise.</div>
+      </div>
+      <p class="tip"><b>Astuce de débutant</b>À 17 ou plus, reste. À 11 ou moins, tire toujours : impossible de dépasser 21.</p>
+    </div>
+  </section>
+
+  <footer aria-hidden="true">♠ ♥ ♣ ♦</footer>
+</div>
+
+<script>
+(function(){
+  const tabs=[...document.querySelectorAll('nav button')];
+  function show(id){
+    tabs.forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===id)));
+    ['invit','poker','bj'].forEach(s=>{document.getElementById(s).hidden = s!==id});
+    window.scrollTo({top:0});
+  }
+  tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+  const h=(location.hash||'').slice(1); if(['invit','poker','bj'].includes(h)) show(h);
+
+  let choice=null;
+  const choices=[...document.querySelectorAll('.choice')];
+  choices.forEach(c=>c.addEventListener('click',()=>{choice=c.dataset.v;choices.forEach(x=>x.setAttribute('aria-pressed',String(x===c)))}));
+  const nameEl=document.getElementById('name'), status=document.getElementById('status'), send=document.getElementById('send');
+  try{const n=localStorage.getItem('rsvp-name'); if(n) nameEl.value=n;}catch(e){}
+  const label={'oui':'Vient','peut-etre':'Peut-être','non':'Passe son tour'};
+  const col={'oui':'var(--yes)','peut-etre':'var(--maybe)','non':'var(--no)'};
+  function setStatus(t,cls){status.textContent=t;status.className='status'+(cls?' '+cls:'')}
+  function slug(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)}
+
+  // Adresse du script Google Sheet (étape « Déployer »)
+  const API_URL = "https://script.google.com/macros/s/AKfycbwYzH7sCMYF5gbz3MxTsUETzj6KErqUiTP51XdgJ1xxYfA7DF6yB0wSC-TxNW2G92b4/exec";
+  const ready = API_URL.startsWith('https://script.google.com/');
+
+  function render(list){
+    const g=document.getElementById('guests'), cnt=document.getElementById('count'), empty=document.getElementById('empty');
+    g.textContent=''; cnt.textContent='';
+    empty.hidden = list.length>0;
+    const tally={oui:0,'peut-etre':0,non:0};
+    list.forEach(r=>{ if(tally[r.answer]!==undefined) tally[r.answer]++; });
+    [['oui','viennent'],['peut-etre','peut-être'],['non','passent']].forEach(([k,t])=>{
+      if(!tally[k]) return; const p=document.createElement('span'); p.className=k; p.textContent=tally[k]+' '+t; cnt.appendChild(p);
+    });
+    list.forEach(r=>{
+      const li=document.createElement('li'); const n=document.createElement('span'); n.textContent=r.name;
+      const a=document.createElement('em'); a.textContent=label[r.answer]||''; a.style.color=col[r.answer]||'';
+      li.append(n,a); g.appendChild(li);
+    });
+  }
+  render([]);
+
+  async function load(){
+    if(!ready) return;
+    try{
+      const r=await fetch(API_URL+'?t='+Date.now());
+      const list=await r.json();
+      if(Array.isArray(list)) render(list);
+    }catch(e){}
+  }
+  load();
+  setInterval(()=>{ if(!document.hidden) load(); }, 15000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) load(); });
+
+  document.getElementById('rsvp').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const name=nameEl.value.trim();
+    if(!name){setStatus('Écris ton prénom pour qu\'on sache qui répond.','err');nameEl.focus();return}
+    if(!choice){setStatus('Choisis une réponse : je viens, peut-être ou je passe.','err');return}
+    try{localStorage.setItem('rsvp-name',name)}catch(e){}
+    if(!ready){setStatus('Les réponses ne sont pas encore branchées. Envoie ta réponse à Yacine par message.','err');return}
+    send.disabled=true; setStatus('Envoi…');
+    try{
+      const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({name,answer:choice})});
+      const res=await r.json();
+      if(!res.ok) throw new Error();
+      setStatus(choice==='oui'?'C\'est noté, à 19h à la table !':choice==='non'?'C\'est noté, dommage !':'C\'est noté, tiens-nous au courant.','ok');
+      load();
+    }catch(err){
+      setStatus('Ta réponse n\'a pas pu être enregistrée. Réessaie, ou envoie-la à Yacine par message.','err');
+    }finally{send.disabled=false}
+  });
+})();
+</script>
+</body>
+</html>
